@@ -1,0 +1,8 @@
+# Raw source/reference materials; the public page uses curated assets in static/.
+*.pptx
+Yue_3DGS_US/
+nerfies.github.io-main/
+
+# Local/runtime noise
+.DS_Store
+Thumbs.db

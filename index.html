@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UltraVoxelGS | Voxel-First Feed-Forward Gaussian Splatting for 3D Ultrasound</title>
+  <meta name="description" content="UltraVoxelGS makes hidden 3D ultrasound coverage visible during 2D ultrasound scanning.">
+  <meta property="og:title" content="UltraVoxelGS">
+  <meta property="og:description" content="Voxel-first feed-forward Gaussian splatting for fast and faithful 3D ultrasound reconstruction.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="static/assets/paper-pipeline.png">
+  <link rel="icon" href="static/assets/ultravision-lab-logo.svg">
+  <link rel="stylesheet" href="static/css/site.css?v=clinical-story-1">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="UltraVoxelGS home">
+      <span class="brand-icon">U</span>
+      <span>UltraVoxelGS</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="#problem">Problem</a>
+      <a href="#barriers">Barriers</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#vision">Vision</a>
+    </nav>
+    <a class="lab-lockup" href="#vision" aria-label="UltraVision+ Lab">
+      <img src="static/assets/ultravision-lab-logo.svg" alt="">
+      <span>UltraVision+ Lab</span>
+    </a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Research Project</p>
+        <h1>Ultra<span>Voxel</span>GS</h1>
+        <p class="slogan">Making hidden 3D coverage visible during 2D ultrasound scanning.</p>
+        <p class="hero-text">
+          A voxel-first feed-forward Gaussian Splatting framework that reconstructs tracked ultrasound slices into a 3D representation fast enough to support live spatial feedback.
+        </p>
+        <div class="hero-badges" aria-label="Core messages">
+          <span>Fast reconstruction</span>
+          <span>Faithful rendering</span>
+          <span class="danger">Evidence-aware feedback</span>
+        </div>
+        <p class="authors">Yue Wang, Haoxin Chen, Xiaoqing Guo &middot; Hong Kong Baptist University</p>
+      </div>
+
+      <div class="hero-visual" aria-label="UltraVoxelGS visual workflow">
+        <div class="flow-row">
+          <article class="flow-node">
+            <span>Posed 2D US slices</span>
+            <img src="static/assets/hero-posed-slices.png" alt="Stack of posed 2D ultrasound slices">
+          </article>
+          <div class="flow-arrow" aria-hidden="true"></div>
+          <article class="flow-node voxel-node">
+            <span>Shared voxel support</span>
+            <div class="voxel-cube" aria-hidden="true">
+              <img src="static/assets/volume-reconstruction.png" alt="">
+            </div>
+          </article>
+          <div class="flow-arrow" aria-hidden="true"></div>
+          <article class="flow-node gaussian-node">
+            <span>3D US representation</span>
+            <img src="static/assets/volume-reconstruction-cutout.png" alt="3D ultrasound Gaussian representation">
+          </article>
+          <div class="flow-arrow" aria-hidden="true"></div>
+          <article class="flow-node">
+            <span>Rendered novel views</span>
+            <img src="static/assets/hero-rendered-views.png" alt="Rendered novel ultrasound views">
+          </article>
+        </div>
+
+        <div class="coverage-story" aria-label="Hidden coverage becomes visible missing evidence">
+          <article>
+            <span>Hidden coverage</span>
+            <div class="coverage-volume hidden-gap">
+              <img src="static/assets/volume-reconstruction-cutout.png" alt="">
+              <b>?</b>
+            </div>
+          </article>
+          <div class="story-arrow" aria-hidden="true"></div>
+          <article>
+            <span>Visible incompleteness</span>
+            <div class="coverage-volume visible-gap">
+              <img src="static/assets/volume-reconstruction-cutout.png" alt="">
+            </div>
+          </article>
+          <div class="story-arrow" aria-hidden="true"></div>
+          <article>
+            <span>Re-scan cue</span>
+            <div class="coverage-volume rescan-gap">
+              <img src="static/assets/volume-reconstruction-cutout.png" alt="">
+              <i></i>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="metric-strip" aria-label="Result highlights">
+      <div><strong>10.04s</strong><span>scene representation construction</span></div>
+      <div><strong>24.29</strong><span>PSNR on real tracked scans</span></div>
+      <div><strong>0.8329</strong><span>SSIM with RAA</span></div>
+      <div><strong>1600+</strong><span>input frames without retraining</span></div>
+    </section>
+
+    <section class="section problem-section" id="problem">
+      <div class="section-copy">
+        <p class="eyebrow">Problem</p>
+        <h2>2D ultrasound shows slices, not 3D coverage.</h2>
+        <p>
+          During scanning, the operator sees local 2D frames and mentally infers the missing 3D anatomy. Coverage gaps can remain invisible until they are reconstructed and rendered from new viewpoints.
+        </p>
+      </div>
+      <figure class="paper-figure workflow-figure">
+        <img src="static/assets/paper-clinical-workflow.png" alt="Clinical workflow from ultrasound acquisition to rendered novel views">
+        <figcaption>Clinical workflow: acquisition, posed slices, reconstruction, and novel-view rendering for immediate spatial feedback.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section barriers-section" id="barriers">
+      <div class="section-copy narrow">
+        <p class="eyebrow">Why It Is Hard</p>
+        <h2>Ultrasound breaks the usual feed-forward GS assumptions.</h2>
+      </div>
+      <div class="barrier-grid">
+        <article>
+          <span>Barrier 01</span>
+          <h3>Sparse cross-view overlap</h3>
+          <p>Two slices share only a thin intersection, so pixel-aligned multi-view matching has little support.</p>
+        </article>
+        <article>
+          <span>Barrier 02</span>
+          <h3>View-dependent appearance</h3>
+          <p>Acoustic propagation, anisotropic reflection, and cumulative attenuation make intensities pose dependent.</p>
+        </article>
+      </div>
+      <figure class="paper-figure">
+        <img src="static/assets/paper-paradigm-shift.png" alt="Paradigm shift from optical feed-forward GS to ultrasound-specific voxel-aligned mechanism">
+        <figcaption>Voxel-first reformulation: consolidate posed slices into shared support before predicting Gaussians.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section method-section" id="method">
+      <div class="section-copy narrow">
+        <p class="eyebrow">Method</p>
+        <h2>First build shared support. Then predict and render.</h2>
+        <p>
+          UltraVoxelGS makes feed-forward ultrasound GS possible by separating support construction, Gaussian prediction, and ultrasound-aware rendering.
+        </p>
+      </div>
+      <figure class="paper-figure method-figure">
+        <img src="static/assets/paper-pipeline.png" alt="Complete UltraVoxelGS method pipeline">
+        <figcaption>Full method pipeline: voxel-to-Gaussian prediction plus Decoupled Reflection and Attenuation Rendering and Render-time Appearance Adaptation.</figcaption>
+      </figure>
+      <div class="method-cards">
+        <article>
+          <span>Voxel-first reconstruction</span>
+          <p>Lift all posed slices into a shared voxel support so reconstruction scale is controlled by spatial support rather than raw frame count.</p>
+        </article>
+        <article>
+          <span>DRA</span>
+          <p>Decouple anisotropic reflection from cumulative attenuation to respect ultrasound image formation.</p>
+        </article>
+        <article>
+          <span>RAA</span>
+          <p>Use nearby observed slices as appearance anchors while keeping the global Gaussian geometry fixed.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section results-section" id="results">
+      <div class="section-copy narrow">
+        <p class="eyebrow">Results</p>
+        <h2>Feed-forward reconstruction with optimization-level fidelity.</h2>
+        <p>
+          The page keeps results visually subordinate to the story, but the evidence is still concrete: real qualitative comparisons, quality-time behavior, and DRA/RAA analyses from the study figures.
+        </p>
+      </div>
+      <div class="result-switcher">
+        <div class="segmented" role="tablist" aria-label="Result figure selector">
+          <button class="is-active" type="button" role="tab" aria-selected="true" data-figure="static/assets/paper-main-results.png" data-caption="Qualitative comparison on real-world and simulated ultrasound datasets.">Qualitative</button>
+          <button type="button" role="tab" aria-selected="false" data-figure="static/assets/paper-quality-tradeoff.png" data-caption="Quality-efficiency frontier and RAA rendering-time trade-off.">Quality / Time</button>
+          <button type="button" role="tab" aria-selected="false" data-figure="static/assets/paper-decoupled-attenuation.png" data-caption="DRA visualization: cumulative attenuation and anisotropic reflection.">DRA</button>
+          <button type="button" role="tab" aria-selected="false" data-figure="static/assets/paper-raa-time-transfer.png" data-caption="RAA progressively sharpens local structures and contrast.">RAA</button>
+        </div>
+        <figure class="result-figure">
+          <img id="result-image" src="static/assets/paper-main-results.png" alt="UltraVoxelGS study result figure">
+          <figcaption id="result-caption">Qualitative comparison on real-world and simulated ultrasound datasets.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="vision-section" id="vision">
+      <img src="static/assets/ultravision-lab-logo.svg" alt="UltraVision+ Lab logo">
+      <div>
+        <p class="eyebrow">Clinical Vision</p>
+        <h2>From hidden coverage to actionable re-scan guidance.</h2>
+        <p>
+          The intended interface is not just a prettier 3D reconstruction. It is evidence-aware feedback: reveal the uncovered region, then guide the operator to scan what is missing.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>UltraVoxelGS</span>
+    <span>Fast reconstruction &middot; faithful rendering &middot; evidence-aware feedback</span>
+  </footer>
+
+  <script src="static/js/site.js?v=clinical-story-1"></script>
+</body>
+</html>

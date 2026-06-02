@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 620" role="img" aria-labelledby="title desc">
+  <title id="title">UltraVision+ Lab logo</title>
+  <desc id="desc">A green and gray UltraVision+ Lab mark with a hand, robotic arm, ultrasound probe, circuit traces, and lab name.</desc>
+  <defs>
+    <style>
+      .green{stroke:#2f7f3d;fill:none;stroke-width:14;stroke-linecap:round;stroke-linejoin:round}
+      .gray{stroke:#6b6f72;fill:none;stroke-width:13;stroke-linecap:round;stroke-linejoin:round}
+      .light{stroke:#b6bbbd;fill:none;stroke-width:13;stroke-linecap:round;stroke-linejoin:round}
+      .fillg{fill:#2f7f3d}
+      .word{font-family:Arial,Helvetica,sans-serif;font-weight:800;letter-spacing:0}
+    </style>
+  </defs>
+
+  <path class="green" d="M280 70 228 104 204 176 306 194"/>
+  <path class="green" d="M480 70 532 104 556 176 454 194"/>
+  <path class="green" d="M282 70h198"/>
+  <path class="green" d="M380 74v34"/>
+  <path class="green" d="M354 112c12-14 40-14 52 0"/>
+  <path class="green" d="M365 132c7-7 23-7 30 0"/>
+  <path class="green" d="M334 156h92v58l-34 31v76h-50v-76l-34-31v-58z"/>
+
+  <path class="gray" d="M84 276c42 14 78 9 104-22 14-18 25-24 39-17 16 8 12 29-2 45l-36 43"/>
+  <path class="gray" d="M36 320c66 44 140 64 232 58 35-2 70-7 106-17"/>
+  <path class="gray" d="M143 345c42-6 75-17 97-37"/>
+  <path class="gray" d="M237 310c29 5 56 1 82-13"/>
+  <path class="light" d="M466 360c60 24 119 22 177-4 32-14 52-38 62-74"/>
+  <path class="light" d="M476 310c32 20 68 24 108 12"/>
+  <path class="light" d="M552 262c24-22 46-42 74-52"/>
+  <path class="light" d="M637 226c29 10 48 30 57 61"/>
+  <circle class="light" cx="657" cy="278" r="31"/>
+  <path class="light" d="M602 244 654 178"/>
+  <path class="light" d="M690 240 735 198"/>
+
+  <path class="green" d="M380 322v64"/>
+  <path class="green" d="M240 414h86"/>
+  <path class="green" d="M520 414h-86"/>
+  <path class="green" d="M302 420v52h-54"/>
+  <path class="green" d="M458 420v52h54"/>
+  <path class="green" d="M380 386v86"/>
+  <path class="green" d="M340 422v58"/>
+  <path class="green" d="M420 422v58"/>
+  <circle class="fillg" cx="226" cy="472" r="13"/>
+  <circle class="fillg" cx="534" cy="472" r="13"/>
+  <circle class="fillg" cx="340" cy="500" r="13"/>
+  <circle class="fillg" cx="420" cy="500" r="13"/>
+  <circle class="fillg" cx="380" cy="516" r="13"/>
+
+  <text class="word" x="32" y="580" font-size="68" fill="#2f7f3d">UltraVision+</text>
+  <text class="word" x="542" y="580" font-size="68" fill="#6b6f72">Lab</text>
+</svg>

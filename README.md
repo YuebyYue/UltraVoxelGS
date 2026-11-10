@@ -1,5 +1,7 @@
 # UltraVoxelGS Project Page
 
+[View the live project page](https://yuebyyue.github.io/UltraVoxelGS/)
+
 Static project homepage for:
 
 **UltraVoxelGS: Voxel-First Feed-Forward Gaussian Splatting for 3D Ultrasound Reconstruction**
@@ -23,6 +25,7 @@ This repository hosts a lightweight GitHub Pages-ready website. The page is desi
 ```text
 .
 |-- index.html
+|-- sitemap.xml
 |-- static/
 |   |-- css/
 |   |   `-- site.css
@@ -68,6 +71,7 @@ Upload these files/folders to the GitHub repository root:
 
 ```text
 index.html
+sitemap.xml
 static/
 .nojekyll
 .gitignore
@@ -129,3 +133,28 @@ When the paper/code becomes publicly available, the page can be updated with:
 - Citation / BibTeX section.
 
 Until then, the current page keeps the project self-contained and avoids implying a public release that does not exist yet.
+
+## Search indexing and Google Search Console
+
+- Live project: https://yuebyyue.github.io/UltraVoxelGS/
+- Sitemap: https://yuebyyue.github.io/UltraVoxelGS/sitemap.xml
+- The HTML declares the canonical HTTPS URL, a descriptive title and description, and explicit indexing permissions. Indexing is allowed by default; the robots meta tag does not force Google to index the page.
+- The sitemap lists the canonical homepage only. Section anchors are not separate pages. Add future public pages using absolute canonical URLs. No lastmod is emitted rather than publishing a stale or guessed modification date.
+- Google reads robots.txt only at https://yuebyyue.github.io/robots.txt, which is managed by the separate YuebyYue.github.io repository. A robots.txt inside this project directory would not apply. The root robots.txt currently permits crawling. The project sitemap can be submitted directly in Search Console without modifying that repository.
+- The sitemap link in the HTML is supplementary; use Search Console submission for discovery.
+
+### Submit this project
+
+1. Open https://search.google.com/search-console and add a **URL-prefix** property: https://yuebyyue.github.io/UltraVoxelGS/ (including HTTPS and the trailing slash). A Domain property requires DNS verification, which is not appropriate for this GitHub-hosted subdomain.
+2. If the parent website is already verified in your account, this property may verify automatically. Otherwise choose **HTML tag** under the available verification methods.
+3. Copy the exact Google-provided meta tag named google-site-verification into the head of index.html. Commit and deploy it, confirm it is present in the live HTML, then click **Verify**. Do not invent a token or remove it after verification.
+4. Open **Sitemaps** and submit https://yuebyyue.github.io/UltraVoxelGS/sitemap.xml. If the form already displays the property prefix, enter only sitemap.xml. Confirm the sitemap status becomes Success.
+5. Use **URL inspection** for https://yuebyyue.github.io/UltraVoxelGS/. Select **Test live URL** and, if eligible and not already indexed, **Request indexing**.
+6. Review indexing status later. Successful sitemap processing or a live URL test does not guarantee indexing or a particular ranking. Crawling can take days to weeks.
+
+For discovery, link the live project page from the code repository, personal homepage, and laboratory publication entry where appropriate.
+
+Official references:
+- https://support.google.com/webmasters/answer/9008080
+- https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+- https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl
